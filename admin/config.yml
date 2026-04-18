@@ -1,0 +1,149 @@
+backend:
+  name: github
+  repo: enzosullivan/The-sherifian-post-claude
+  branch: main
+  base_url: https://sveltia-cms-auth.pages.dev
+
+media_folder: "assets/images/uploads"
+public_folder: "/assets/images/uploads"
+
+site_url: https://enzosullivan.github.io/The-sherifian-post-claude
+
+locale: fr
+
+collections:
+
+  # ── ARTICLES PRINCIPAUX ──
+  - name: "articles"
+    label: "Articles"
+    label_singular: "Article"
+    folder: "content/articles"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - label: "Titre"
+        name: "title"
+        widget: "string"
+
+      - label: "Date de publication"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+
+      - label: "Auteur"
+        name: "author"
+        widget: "string"
+        default: "The Sherifian Post"
+
+      - label: "Catégorie"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "🌍 Global Reach", value: "global-reach" }
+          - { label: "🛡️ The Shield", value: "the-shield" }
+          - { label: "🗂️ Archives", value: "archives" }
+          - { label: "🧬 Cultural DNA", value: "cultural-dna" }
+
+      - label: "Image de couverture"
+        name: "cover_image"
+        widget: "image"
+        required: false
+
+      - label: "Texte alternatif de l'image"
+        name: "cover_image_alt"
+        widget: "string"
+        required: false
+
+      - label: "Description SEO"
+        name: "seo_description"
+        widget: "text"
+        required: false
+        hint: "Maximum 160 caractères — affiché sur Google"
+
+      - label: "Contenu de l'article"
+        name: "body"
+        widget: "markdown"
+
+  # ── PREUVE DU JOUR ──
+  - name: "preuves"
+    label: "Preuves du Jour"
+    label_singular: "Preuve"
+    folder: "content/preuves"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - label: "Titre"
+        name: "title"
+        widget: "string"
+        hint: "Ex: 1772 — Lettre du Sultan Mohammed III à George III"
+
+      - label: "Date de publication"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+
+      - label: "Image du document"
+        name: "document_image"
+        widget: "image"
+        required: false
+        hint: "Photo ou scan du document historique"
+
+      - label: "Texte alternatif de l'image"
+        name: "document_image_alt"
+        widget: "string"
+        required: false
+
+      - label: "Référence du document"
+        name: "document_ref"
+        widget: "string"
+        required: false
+        hint: "Ex: Archives Nationales, Rabat — Réf. MA-1772-GR3"
+
+      - label: "Transcription et analyse"
+        name: "body"
+        widget: "markdown"
+        hint: "Transcription du document + ton analyse"
+
+  # ── RADAR DE DEBUNKING ──
+  - name: "debunking"
+    label: "Radar de Debunking"
+    label_singular: "Entrée Radar"
+    folder: "content/debunking"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - label: "Titre de la rumeur"
+        name: "title"
+        widget: "string"
+        hint: "Ex: Les frontières coloniales pré-1912 démentent la souveraineté marocaine"
+
+      - label: "Date"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+
+      - label: "Type"
+        name: "type"
+        widget: "select"
+        options:
+          - { label: "🔴 Rumeur", value: "rumeur" }
+          - { label: "🟠 Propagande", value: "propagande" }
+          - { label: "🟡 Psyops", value: "psyops" }
+          - { label: "🔵 Désinformation", value: "desinformation" }
+
+      - label: "Verdict"
+        name: "verdict"
+        widget: "select"
+        options:
+          - { label: "❌ Faux", value: "faux" }
+          - { label: "⚠️ Partiellement faux", value: "partiel" }
+          - { label: "✅ Vrai mais trompeur", value: "trompeur" }
+
+      - label: "Résumé court"
+        name: "summary"
+        widget: "text"
+        hint: "1-2 phrases affichées sur la page d'accueil"
+
+      - label: "Analyse complète"
+        name: "body"
+        widget: "markdown"
