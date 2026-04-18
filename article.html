@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Article — The Sherifian Post</title>
+  <meta name="description" content="The Sherifian Post" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="The Sherifian Post" />
+  <meta property="og:title" content="Article — The Sherifian Post" />
+  <meta property="og:description" content="The Sherifian Post" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Serif+4:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --ink: #1a1208; --paper: #f5f0e8; --cream: #ede8dc; --rust: #8b3a1a; --gold: #c9a84c; --muted: #6b5f4f; }
+    body { background: var(--paper); color: var(--ink); font-family: 'Source Serif 4', Georgia, serif; font-weight: 300; line-height: 1.8; }
+    header { border-bottom: 3px double var(--ink); padding: 1rem; text-align: center; }
+    .masthead { font-family: 'Playfair Display', serif; font-size: clamp(1.4rem, 4vw, 2.4rem); font-weight: 700; }
+    .masthead a { text-decoration: none; color: inherit; }
+    main { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+    .back-link { display: inline-block; margin-bottom: 2.5rem; font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
+    .back-link:hover { color: var(--rust); }
+    .article-category { display: inline-block; font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--rust); margin-bottom: 1rem; }
+    h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+    .article-meta { font-size: 0.78rem; color: var(--muted); padding-bottom: 1.5rem; border-bottom: 1px solid var(--cream); }
+    .cover-img { width: 100%; max-height: 420px; object-fit: cover; display: block; margin: 1.5rem 0 2rem; }
+    #article-body { font-size: 1.05rem; }
+    #article-body h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin: 2.5rem 0 0.8rem; padding-top: 1.5rem; border-top: 1px solid var(--cream); }
+    #article-body h3 { font-size: 1.1rem; font-style: italic; margin: 1.8rem 0 0.6rem; }
+    #article-body p { margin-bottom: 1.3rem; }
+    #article-body blockquote { border-left: 3px solid var(--gold); margin: 2rem 0; padding: 0.5rem 1.5rem; font-style: italic; color: var(--muted); }
+    #article-body a { color: var(--rust); }
+    #article-body ul, #article-body ol { margin: 1rem 0 1.3rem 1.5rem; }
+    #loading-state { text-align: center; padding: 4rem; color: var(--muted); font-style: italic; }
+    footer { border-top: 1px solid var(--ink); text-align: center; padding: 1.5rem; font-size: 0.72rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+<header>
+  <div class="masthead"><a href="/The-sherifian-post-claude/">The Sherifian Post</a></div>
+</header>
+<main>
+  <a class="back-link" href="/The-sherifian-post-claude/">← Retour aux actualités</a>
+  <div id="loading-state">Chargement de l'article…</div>
+  <article id="article-container" style="display:none">
+    <header>
+      <span class="article-category" id="art-category"></span>
+      <h1 id="art-title"></h1>
+      <p class="article-meta" id="art-meta"></p>
+    </header>
+    <img class="cover-img" id="art-cover" style="display:none" alt="" />
+    <div id="article-body"></div>
+  </article>
+</main>
+<footer>&copy; <span id="year"></span> The Sherifian Post</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const labels = {'global-reach':'🌍 Global Reach','the-shield':'🛡️ The Shield','archives':'🗂️ Archives','cultural-dna':'🧬 Cultural DNA'};
+
+  function parseFrontMatter(text) {
+    const match = text.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+    if (!match) return { attrs: {}, body: text };
+    const attrs = {};
+    match[1].split('\n').forEach(line => {
+      const i = line.indexOf(':');
+      if (i === -1) return;
+      const key = line.slice(0, i).trim();
+      const val = line.slice(i + 1).trim().replace(/^["']|["']$/g, '');
+      attrs[key] = val;
+    });
+    return { attrs, body: match[2] };
+  }
+
+  async function loadArticle() {
+    const id = new URLSearchParams(window.location.search).get('id');
+    const el = document.getElementById('loading-state');
+    if (!id) { el.innerHTML = 'Aucun article spécifié. <a href="/The-sherifian-post-claude/">Retour</a>'; return; }
+    try {
+      const res = await fetch(`/The-sherifian-post-claude/content/articles/${id}.md`);
+      if (!res.ok) throw new Error();
+      const { attrs, body } = parseFrontMatter(await res.text());
+      document.title = `${attrs.title || 'Article'} — The Sherifian Post`;
+      document.querySelector('meta[name="description"]').content = attrs.seo_description || '';
+      document.querySelector('meta[property="og:title"]').content = attrs.title || '';
+      document.querySelector('meta[property="og:description"]').content = attrs.seo_description || '';
+      document.getElementById('art-category').textContent = labels[attrs.category] || attrs.category || '';
+      document.getElementById('art-title').textContent = attrs.title || '';
+      document.getElementById('art-meta').textContent =
+        (attrs.date ? new Date(attrs.date).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}) : '') +
+        (attrs.author ? ' · ' + attrs.author : '');
+      if (attrs.cover_image) {
+        const img = document.getElementById('art-cover');
+        img.src = attrs.cover_image;
+        img.alt = attrs.cover_image_alt || attrs.title || '';
+        img.style.display = 'block';
+      }
+      document.getElementById('article-body').innerHTML = marked.parse(body);
+      el.style.display = 'none';
+      document.getElementById('article-container').style.display = 'block';
+    } catch {
+      el.innerHTML = 'Article introuvable. <a href="/The-sherifian-post-claude/">← Retour</a>';
+    }
+  }
+  loadArticle();
+</script>
+</body>
+</html>
