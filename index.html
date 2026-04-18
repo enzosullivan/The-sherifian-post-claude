@@ -10,21 +10,51 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --ink: #1a1208;
-      --paper: #f5f0e8;
-      --cream: #ede8dc;
-      --rust: #8b3a1a;
-      --gold: #c9a84c;
-      --muted: #6b5f4f;
+      --ink: #1a1208; --paper: #f5f0e8; --cream: #ede8dc;
+      --rust: #8b3a1a; --gold: #c9a84c; --muted: #6b5f4f;
+      --green: #1a3a2a;
     }
     body { background: var(--paper); color: var(--ink); font-family: 'Source Serif 4', Georgia, serif; font-weight: 300; line-height: 1.7; }
+
+    /* HEADER */
     header { border-bottom: 3px double var(--ink); padding: 2rem 1rem 1rem; text-align: center; }
     .masthead { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 7vw, 4.5rem); font-weight: 700; letter-spacing: -0.02em; }
     .tagline { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); margin-top: 0.4rem; }
+
+    /* NAV */
     nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.25rem; padding: 0.8rem 1rem; background: var(--ink); }
     nav button { background: none; border: 1px solid transparent; color: var(--cream); font-family: 'Source Serif 4', serif; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.35rem 0.9rem; cursor: pointer; transition: border-color 0.2s, color 0.2s; }
     nav button:hover, nav button.active { border-color: var(--gold); color: var(--gold); }
+
+    /* CONTENU */
     main { max-width: 1140px; margin: 0 auto; padding: 2.5rem 1rem 4rem; }
+
+    /* RUBRIQUES SPECIALES */
+    .rubriques { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+    @media (max-width: 640px) { .rubriques { grid-template-columns: 1fr; } }
+
+    /* PREUVE DU JOUR */
+    .preuve-card { border: 2px solid var(--ink); padding: 1.2rem; background: var(--paper); }
+    .rubrique-label { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); background: var(--ink); display: inline-block; padding: 0.2rem 0.6rem; margin-bottom: 0.8rem; }
+    .preuve-card img { width: 100%; max-height: 160px; object-fit: cover; display: block; margin-bottom: 0.8rem; filter: sepia(30%); }
+    .preuve-card h3 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; line-height: 1.3; margin-bottom: 0.5rem; }
+    .preuve-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; margin-bottom: 0.8rem; }
+    .preuve-ref { font-size: 0.62rem; letter-spacing: 0.1em; color: var(--muted); border-top: 1px solid var(--cream); padding-top: 0.5rem; }
+    .btn-small { display: inline-block; margin-top: 0.8rem; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink); border: 1px solid var(--ink); padding: 0.3rem 0.8rem; text-decoration: none; transition: background 0.2s, color 0.2s; }
+    .btn-small:hover { background: var(--ink); color: var(--paper); }
+
+    /* RADAR DEBUNKING */
+    .radar-card { border: 2px solid var(--green); padding: 1.2rem; background: var(--paper); }
+    .radar-card .rubrique-label { background: var(--green); }
+    .radar-item { padding: 0.7rem 0; border-bottom: 1px solid var(--cream); }
+    .radar-item:last-child { border-bottom: none; }
+    .radar-type { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); margin-bottom: 0.2rem; }
+    .radar-title { font-size: 0.88rem; font-family: 'Playfair Display', serif; line-height: 1.3; margin-bottom: 0.3rem; }
+    .radar-verdict { font-size: 0.7rem; color: var(--muted); }
+    .radar-empty { font-size: 0.82rem; color: var(--muted); font-style: italic; }
+
+    /* GRILLE ARTICLES */
+    .section-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--ink); }
     #articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2px; background: var(--ink); border: 2px solid var(--ink); }
     .article-card { background: var(--paper); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; text-decoration: none; color: inherit; transition: background 0.2s; }
     .article-card:hover { background: var(--cream); }
@@ -33,15 +63,19 @@
     .card-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.5; flex: 1; }
     .card-meta { font-size: 0.7rem; color: var(--muted); padding-top: 0.8rem; border-top: 1px solid var(--cream); margin-top: auto; }
     #state-msg { grid-column: 1/-1; padding: 3rem; text-align: center; color: var(--muted); font-style: italic; }
+
+    /* FOOTER */
     footer { border-top: 1px solid var(--ink); text-align: center; padding: 1.5rem; font-size: 0.72rem; letter-spacing: 0.15em; color: var(--muted); }
     footer a { color: var(--rust); text-decoration: none; }
   </style>
 </head>
 <body>
+
 <header>
   <div class="masthead">The Sherifian Post</div>
   <div class="tagline">Chroniques du monde — Édition internationale</div>
 </header>
+
 <nav id="category-nav">
   <button class="active" data-filter="all">Tout</button>
   <button data-filter="global-reach">🌍 Global Reach</button>
@@ -49,19 +83,58 @@
   <button data-filter="archives">🗂️ Archives</button>
   <button data-filter="cultural-dna">🧬 Cultural DNA</button>
 </nav>
+
 <main>
+
+  <!-- RUBRIQUES SPÉCIALES -->
+  <div class="rubriques">
+
+    <!-- PREUVE DU JOUR -->
+    <div class="preuve-card">
+      <span class="rubrique-label">📜 Preuve du Jour</span>
+      <div id="preuve-content">
+        <p class="radar-empty">Aucune preuve publiée pour l'instant.</p>
+      </div>
+    </div>
+
+    <!-- RADAR DE DEBUNKING -->
+    <div class="radar-card">
+      <span class="rubrique-label">🔍 Radar de Debunking</span>
+      <div id="radar-content">
+        <p class="radar-empty">Aucune entrée publiée pour l'instant.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ARTICLES -->
+  <div class="section-title">Dernières Dépêches</div>
   <div id="articles-grid">
     <p id="state-msg">Chargement des articles…</p>
   </div>
+
 </main>
+
 <footer>
   &copy; <span id="year"></span> The Sherifian Post —
   <a href="/The-sherifian-post-claude/admin/">Espace éditeur</a>
 </footer>
+
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  const BASE = '/The-sherifian-post-claude';
+  const LABELS = {
+    'global-reach':'🌍 Global Reach',
+    'the-shield':'🛡️ The Shield',
+    'archives':'🗂️ Archives',
+    'cultural-dna':'🧬 Cultural DNA'
+  };
+
   let allArticles = [];
   let currentFilter = 'all';
+
+  // Filtrage catégories
   document.getElementById('category-nav').addEventListener('click', e => {
     if (!e.target.matches('button')) return;
     document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
@@ -69,32 +142,75 @@
     currentFilter = e.target.dataset.filter;
     renderArticles();
   });
+
+  // Chargement articles
   async function loadArticles() {
     try {
-      const res = await fetch('content/articles/index.json');
+      const res = await fetch(`${BASE}/content/articles/index.json`);
       if (!res.ok) throw new Error();
       allArticles = await res.json();
       renderArticles();
     } catch {
       document.getElementById('articles-grid').innerHTML =
-        '<p id="state-msg">Aucun article publié pour l\'instant.<br><a href="/The-sherifian-post-claude/admin/" style="color:#8b3a1a">→ Publier le premier article</a></p>';
+        `<p id="state-msg">Aucun article publié. <a href="${BASE}/admin/" style="color:#8b3a1a">→ Publier</a></p>`;
     }
   }
+
   function renderArticles() {
     const grid = document.getElementById('articles-grid');
     const filtered = currentFilter === 'all' ? allArticles : allArticles.filter(a => a.category === currentFilter);
     if (!filtered.length) { grid.innerHTML = '<p id="state-msg">Aucun article dans cette catégorie.</p>'; return; }
     filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
-    const labels = {'global-reach':'🌍 Global Reach','the-shield':'🛡️ The Shield','archives':'🗂️ Archives','cultural-dna':'🧬 Cultural DNA'};
     grid.innerHTML = filtered.map(a => `
-      <a class="article-card" href="/The-sherifian-post-claude/article.html?id=${encodeURIComponent(a.slug)}">
-        <span class="card-category">${labels[a.category] || a.category}</span>
+      <a class="article-card" href="${BASE}/article.html?id=${encodeURIComponent(a.slug)}">
+        <span class="card-category">${LABELS[a.category] || a.category}</span>
         <span class="card-title">${a.title}</span>
         ${a.seo_description ? `<span class="card-desc">${a.seo_description}</span>` : ''}
         <span class="card-meta">${a.date ? new Date(a.date).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}) : ''} · ${a.author || 'The Sherifian Post'}</span>
       </a>`).join('');
   }
+
+  // Chargement Preuve du Jour
+  async function loadPreuve() {
+    try {
+      const res = await fetch(`${BASE}/content/preuves/index.json`);
+      if (!res.ok) throw new Error();
+      const preuves = await res.json();
+      if (!preuves.length) return;
+      preuves.sort((a, b) => new Date(b.date) - new Date(a.date));
+      const p = preuves[0];
+      document.getElementById('preuve-content').innerHTML = `
+        ${p.document_image ? `<img src="${p.document_image}" alt="${p.document_image_alt || p.title}" />` : ''}
+        <h3>${p.title}</h3>
+        ${p.summary ? `<p>${p.summary}</p>` : ''}
+        ${p.document_ref ? `<div class="preuve-ref">Réf : ${p.document_ref}</div>` : ''}
+        <a class="btn-small" href="${BASE}/preuve.html?id=${encodeURIComponent(p.slug)}">Lire l'analyse →</a>
+      `;
+    } catch { /* garde le message vide */ }
+  }
+
+  // Chargement Radar Debunking
+  async function loadRadar() {
+    try {
+      const res = await fetch(`${BASE}/content/debunking/index.json`);
+      if (!res.ok) throw new Error();
+      const items = await res.json();
+      if (!items.length) return;
+      items.sort((a, b) => new Date(b.date) - new Date(a.date));
+      const verdicts = { faux:'❌ Faux', partiel:'⚠️ Partiellement faux', trompeur:'✅ Vrai mais trompeur' };
+      document.getElementById('radar-content').innerHTML = items.slice(0, 4).map(item => `
+        <div class="radar-item">
+          <div class="radar-type">${item.type ? '[' + item.type.toUpperCase() + ']' : ''}</div>
+          <div class="radar-title">${item.title}</div>
+          <div class="radar-verdict">${verdicts[item.verdict] || ''} — ${item.summary || ''}</div>
+        </div>
+      `).join('');
+    } catch { /* garde le message vide */ }
+  }
+
   loadArticles();
+  loadPreuve();
+  loadRadar();
 </script>
 </body>
 </html>
