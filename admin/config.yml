@@ -3,6 +3,7 @@ backend:
   repo: enzosullivan/The-sherifian-post-claude
   branch: main
   base_url: https://sveltia-cms-auth.pages.dev
+  app_id: 0v23lirM2BB153Y28Nxh
 
 media_folder: "assets/images/uploads"
 public_folder: "/assets/images/uploads"
