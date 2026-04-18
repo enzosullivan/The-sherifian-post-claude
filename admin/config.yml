@@ -2,7 +2,7 @@ backend:
   name: github
   repo: enzosullivan/The-sherifian-post-claude
   branch: main
-  base_url: https://sveltia-cms-auth.pages.dev
+  base_url: https://stirring-starship-ad40d3.netlify.app
   app_id: 0v23lirM2BB153Y28Nxh
 
 media_folder: "assets/images/uploads"
